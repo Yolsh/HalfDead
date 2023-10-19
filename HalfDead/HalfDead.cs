@@ -19,6 +19,8 @@ namespace HalfDead
         static int[] weapon_damage = { 3, 5 };
         static string Modifier;
         static bool HasWeapon;
+        static bool Has_pet;
+        static bool Beat_Daemon;
         static Random rnd = new Random();
 
         static void wait()
@@ -80,7 +82,7 @@ namespace HalfDead
             }
             sr.Close();
         }
-        static bool battle(string[] boss_attacks, string[] player_options, int[] weapon_damages, string boss_name)
+        static bool battle(string[] boss_attacks, string boss_name)
         {
             int boss_attack;
             do
@@ -124,11 +126,11 @@ namespace HalfDead
                             break;
 
                         case 3:
-                            boss_health -= weapon_damages[0];
+                            boss_health -= weapon_damage[0];
                             Display_text("The " + boss_name + " is damaged.");
                             break;
                         case 4:
-                            boss_health -= weapon_damages[1];
+                            boss_health -= weapon_damage[1];
                             Display_text("The "+ boss_name + " is heavily damaged!");
                             break;
                     }
@@ -202,13 +204,17 @@ namespace HalfDead
                             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\Axe.txt"); //add
                             Display_text("you shuffle his corpse and beneath you find a " + Modifier + " Axe");
                             HasWeapon = true;
+                            break;
                         }
                         else
                         {
                             player_health += 2;
                             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\Teddy Bear.txt"); //add
                             Display_text("You found a teddy bear");
+                            wait();
+                            break;
                         }
+                        Been = true;
                     }
                     else if (ans == "no")
                     {
@@ -219,12 +225,95 @@ namespace HalfDead
 
             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\doom corridor.txt");
             Display_text((HasWeapon)? "Would you like to search around more? [yes/no]" : "Would you like to search around? [yes/no]");
-            string choice = Console.ReadLine();
+            string choice;
 
-            if (choice == "yes")
+            do
             {
+                choice = Console.ReadLine();
+                if (choice == "yes")
+                {
+                    ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\doom corridor.txt");
+                    Display_text((!Has_pet)? "you find a shuffling cabinet and a door" : (!Beat_Daemon)? "you have found a door" : "there is nothing else for you to find here");
+                    Display_text((!Been)? "1 - go back and search body" : "1 - go back");
+                    Display_text((!Has_pet)? "2 - search the cabinet" : "");
+                    Display_text((!Beat_Daemon)? "3 - open the door" : "");
 
-            }
+                    int Choice;
+                    do
+                    {
+                        Choice = int.Parse(Console.ReadLine());
+                        switch (Choice)
+                        {
+                            case 1:
+                                Left_Corridor(Been);
+                                break;
+
+                            case 2:
+                                if (!Has_pet)
+                                {
+                                    ascii_art(@"cabinet");
+                                    Display_text("The Cabinet shakes and creaks as you slowly pull it aside and within you find your new best freind");
+                                    wait();
+                                    Has_pet = true;
+                                    ascii_art(@"pet");
+                                    Display_text("you finally have someone to care for and who cares for you");
+                                    Display_text("you pocket him and continue");
+                                }
+                                else 
+                                {
+                                    ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\doom corridor.txt");
+                                    Display_text("You've already searched here try somewhere else");
+                                    wait();
+                                }
+                                break;
+                            
+                            case 3:
+                                if (!Beat_Daemon)
+                                {
+                                    string[] Boss_attacks = { "", "", "", "fireball", "beard of strangulation" };
+                                    int Player_health = player_health;
+                                    //ascii_art(@"door");
+                                    Display_text("you slowly open the door");
+                                    wait();
+                                    //ascii_art(@"daemon");
+                                    Display_text("and Behind it is a huge behemoth chaos creature abstract of all common life");
+                                    Display_text("he turns, spots you");
+                                    wait();
+                                    //ascii_art(@"daemon");
+                                    Display_text("AND LAUNCHES INTO FULL ATTACK!");
+                                    wait();
+                                    if(battle(Boss_attacks, "Daemon"))
+                                    {
+                                        Display_text("Congratulations, though wounded you have won and live to fight on to the surface");
+                                        player_health = Player_health;
+                                        Display_text(""); //add the finding of the key card
+                                    }
+                                    else
+                                    {
+                                        //ascii_art(@"death_image");
+                                        Display_text("Ouch!, you have been bested");
+                                        Display_text("thankfully due to the strangeness of what is going on you are able");
+                                        Display_text("to continue from a previous point in time");
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\doom corridor.txt");
+                                    Display_text("You've already Beaten the Daemon try going elsewhere");
+                                    wait();
+                                }
+                                break;
+                        }
+
+                    } while (Choice < 1 | Choice > 3);
+                }
+                else if (choice == "no")
+                {
+                    break;
+                }
+
+            } while (choice != "yes" | choice != "no");
         }
 
         static void Right_Corridor()
@@ -239,12 +328,6 @@ namespace HalfDead
 
         static void Main_room(bool Been_in_left)
         {
-            ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\console.txt");  // find a control room picture
-            Display_text("You turn around, all contempt and malice flushed as it washes over you.");
-            wait();
-            ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\corridors.txt"); // picture of three corridors
-            Display_text("Now to escape");
-            wait();
             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\corridors.txt");
             Display_text("Which corridor do you go down?");
             Display_text("1 - go left         ");
@@ -280,13 +363,18 @@ namespace HalfDead
             bool Been_in_Left = false;
 
             Title_screen();
+            ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\console.txt");  // find a control room picture
+            Display_text("You turn around, all contempt and malice flushed as it washes over you.");
+            wait();
+            ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\corridors.txt"); // picture of three corridors
+            Display_text("Now to escape");
+            wait();
             Main_room(Been_in_Left);
 
             // test stuff to make the functions i needed
             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\krogg.txt");
             string[] boss_attacks = { "", "", "", "fireball", "beard of strangulation" };
 
-            battle(boss_attacks, player_options, weapon_damage, "Daemon");
             Console.ReadKey();
         }
     }
