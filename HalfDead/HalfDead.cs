@@ -11,11 +11,17 @@ using System.Reflection;
 
 namespace HalfDead
 {
-    internal class Program
+    internal class HalfDead
     {
         static int player_health = 10;
         static int boss_health = 10;
         static Random rnd = new Random();
+
+        static void wait()
+        {
+            Console.ReadKey();
+            Console.Clear();
+        }
 
         static void ascii_art(string File_path)
         {
@@ -111,14 +117,82 @@ namespace HalfDead
 
         static void Title_screen()
         {
-            ascii_art(@"empty"); // make some title art with an ascii art generator
+            ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\krogg.txt"); // make some title art with an ascii art generator
 
-            Console.WriteLine(""); // first introduction text.
+            Display_text("1 - play game");
+            Display_text("2 - exit");
+
+            int Choice = int.Parse(Console.ReadLine());
+            switch (Choice)
+            {
+                case 1: Console.Clear(); break;
+                case 2: Environment.Exit(0); break;
+            }
+        }
+
+        static void Left_Corridor(bool Been)
+        {
+            if (!Been)
+            {
+                Display_text("");
+            }
+
+        }
+
+        static void Right_Corridor()
+        {
+
+        }
+
+        static void Up_Stairs()
+        {
+
+        }
+
+        static void Main_room(bool Been_in_left)
+        {
+            ascii_art(@"(control room)");  // find a control room picture
+            Display_text("You turn around, all contempt and malice flushed as it washes over you.");
+            wait();
+            ascii_art(@"(Three corridors)"); // picture of three corridors
+            Display_text("Now to escape");
+            wait();
+            ascii_art(@"(Three corridors)");
+            Display_text("Which corridor do you go down?");
+            Display_text("1 - go left         ");
+            Display_text("2 - go up the stairs");
+            Display_text("3 - go right        ");
+
+            int Choice = int.Parse(Console.ReadLine());
+            switch (Choice)
+            {
+                case 1:
+                    ascii_art(@"down corridor"); // find this
+                    Display_text("you go down the left corridor");
+                    Left_Corridor(Been_in_left);
+                    Been_in_left = true;
+                    break;
+
+                case 2:
+                    ascii_art(@"up stairs"); // find this
+                    Display_text("you go up the stairs corridor");
+                    Up_Stairs();
+                    break;
+
+                case 3:
+                    ascii_art(@"down corridor"); // find this
+                    Display_text("you go down the right corridor");
+                    Right_Corridor();
+                    break;
+            }
         }
 
         static void Main(string[] args)
         {
+            bool Been_in_Left = false;
+
             Title_screen();
+            Main_room(Been_in_Left);
 
             // test stuff to make the functions i needed
             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\krogg.txt");
