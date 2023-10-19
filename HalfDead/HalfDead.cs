@@ -15,12 +15,55 @@ namespace HalfDead
     {
         static int player_health = 10;
         static int boss_health = 10;
+        static string[] player_options = { "1 - block next attack", "2 - Heal", "3 - light attack", "4 - heavy attack" };
+        static int[] weapon_damage = { 3, 5 };
+        static string Modifier;
+        static bool HasWeapon;
         static Random rnd = new Random();
 
         static void wait()
         {
             Console.ReadKey();
             Console.Clear();
+        }
+
+        static void Weapon_Modifier()
+        {
+            int rand = rnd.Next();
+
+            switch (rand%30)
+            {
+                case 0: Modifier = "good"; weapon_damage[0] += 1; break;
+                case 1: Modifier = "good"; weapon_damage[0] += 1; break;
+                case 2: Modifier = "good"; weapon_damage[0] += 1; break;
+                case 3: Modifier = "good"; weapon_damage[0] += 1; break;
+                case 4: Modifier = "slippery"; weapon_damage[0] -= 1; break;
+                case 5: Modifier = "slippery"; weapon_damage[0] -= 1; break;
+                case 6: Modifier = "benjamated"; weapon_damage[0] = 1; weapon_damage[1] = 2; break;
+                case 7: Modifier = "higgledy piggledy"; weapon_damage[0] += 6; weapon_damage[1] += 9; break;
+                case 8: Modifier = "legendary"; weapon_damage[0] += 3; weapon_damage[1] += 4; break;
+                case 9: Modifier = "legendary"; weapon_damage[0] += 3; weapon_damage[1] += 4; break;
+                case 10: Modifier = "rabbid"; weapon_damage[0] += 1; weapon_damage[1] += 3; break;
+                case 11: Modifier = "rabbid"; weapon_damage[0] += 1; weapon_damage[1] += 3; break;
+                case 12: Modifier = "rabbid"; weapon_damage[0] += 1; weapon_damage[1] += 3; break;
+                case 13: Modifier = "rabbid"; weapon_damage[0] += 1; weapon_damage[1] += 3; break;
+                case 14: Modifier = "epic"; weapon_damage[0] += 2; weapon_damage[1] += 3; break;
+                case 15: Modifier = "epic"; weapon_damage[0] += 2; weapon_damage[1] += 3; break;
+                case 16: Modifier = "epic"; weapon_damage[0] += 2; weapon_damage[1] += 3; break;
+                case 17: Modifier = "enhanced"; weapon_damage[0] += 1; break;
+                case 18: Modifier = "enhanced"; weapon_damage[0] += 1; break;
+                case 19: Modifier = "golden"; weapon_damage[1] += 1; break;
+                case 20: Modifier = "void"; weapon_damage[1] += 3; break;
+                case 21: Modifier = "void"; weapon_damage[1] += 3; break;
+                case 22: Modifier = "drunken"; weapon_damage[0] -= 2; weapon_damage[1] -= 3; break;
+                case 23: Modifier = "drunken"; weapon_damage[0] -= 2; weapon_damage[1] -= 3; break;
+                case 24: Modifier = "potent"; weapon_damage[0] += 2; break;
+                case 25: Modifier = "potent"; weapon_damage[0] += 2; break;
+                case 26: Modifier = "squeaky"; weapon_damage[0] -= 2; weapon_damage[1] -= 3; break;
+                case 27: Modifier = "ungodly"; weapon_damage[1] += 5; break;
+                case 28: Modifier = "apalling"; weapon_damage[0] -= 3; weapon_damage[1] -= 4; break;
+                case 29: Modifier = "apalling"; weapon_damage[0] -= 3; weapon_damage[1] -= 4; break;
+            }
         }
 
         static void ascii_art(string File_path)
@@ -132,9 +175,56 @@ namespace HalfDead
 
         static void Left_Corridor(bool Been)
         {
+            ascii_art(@"picture of destroyed room"); //add
+            Display_text("you enter a room half destroyed and littered with bodies");
+            wait();
+
             if (!Been)
             {
-                Display_text("");
+                ascii_art(@"dead man"); //add
+                Display_text("in front of you lays a body surrounded by a faint glow.");
+                wait();
+                ascii_art(@"dead man"); //add
+                Display_text("Do you search his body? [yes/no]");
+
+                string ans;
+                do
+                {
+                    ans = Console.ReadLine();
+                    if(ans == "yes")
+                    {
+                        if (rnd.Next() % 3 == 0)
+                        {
+                            weapon_damage[0] = 3;
+                            weapon_damage[1] = 4;
+                            Weapon_Modifier();
+                            ascii_art(@"Macahuitl art"); //add
+                            Display_text("you shuffle his corpse and beneath you find a " + Modifier + " Macuahuitl");
+                            HasWeapon = true;
+                        }
+                        else
+                        {
+                            player_health += 2;
+                            ascii_art(@"teddy bear"); //add
+                            Display_text("You found a teddy bear");
+                        }
+                    }
+                    else if (ans == "no")
+                    {
+                        break;
+                    }
+                } while (ans != "yes" | ans != "no");
+
+                Console.Clear();
+                ascii_art(@"picture of destroyed room");
+                Display_text((HasWeapon) ? "Would you like to search around more? [yes/no]" : "Would you like to search around? [yes/no]");
+                string choice = Console.ReadLine();
+
+                if(choice == "yes")
+                {
+                    //search around more
+                }
+
             }
 
         }
@@ -196,9 +286,7 @@ namespace HalfDead
 
             // test stuff to make the functions i needed
             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\krogg.txt");
-            string[] boss_attacks = {"", "", "", "fireball", "beard of strangulation"};
-            string[] player_options = {"1 - block next attack", "2 - Heal", "3 - light attack", "4 - heavy attack" };
-            int[] weapon_damage = { 3, 5 };
+            string[] boss_attacks = { "", "", "", "fireball", "beard of strangulation" };
 
             battle(boss_attacks, player_options, weapon_damage, "Daemon");
             Console.ReadKey();
