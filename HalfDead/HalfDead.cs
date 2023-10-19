@@ -68,6 +68,7 @@ namespace HalfDead
 
         static void ascii_art(string File_path)
         {
+            Console.Clear();
             StreamReader sr = new StreamReader(File_path);
             string line = sr.ReadLine();
 
@@ -163,7 +164,7 @@ namespace HalfDead
             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\krogg.txt"); // make some title art with an ascii art generator
 
             Display_text("1 - play game");
-            Display_text("2 - exit");
+            Display_text("2 - exit     ");
 
             int Choice = int.Parse(Console.ReadLine());
             switch (Choice)
@@ -175,37 +176,37 @@ namespace HalfDead
 
         static void Left_Corridor(bool Been)
         {
-            ascii_art(@"picture of destroyed room"); //add
+            ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\doom corridor.txt"); //add
             Display_text("you enter a room half destroyed and littered with bodies");
             wait();
 
             if (!Been)
             {
-                ascii_art(@"dead man"); //add
+                ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\Dead man.txt"); //add
                 Display_text("in front of you lays a body surrounded by a faint glow.");
                 wait();
-                ascii_art(@"dead man"); //add
+                ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\Dead man.txt"); //add
                 Display_text("Do you search his body? [yes/no]");
 
                 string ans;
                 do
                 {
                     ans = Console.ReadLine();
-                    if(ans == "yes")
+                    if (ans == "yes")
                     {
                         if (rnd.Next() % 3 == 0)
                         {
                             weapon_damage[0] = 3;
                             weapon_damage[1] = 4;
                             Weapon_Modifier();
-                            ascii_art(@"Macahuitl art"); //add
-                            Display_text("you shuffle his corpse and beneath you find a " + Modifier + " Macuahuitl");
+                            ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\Axe.txt"); //add
+                            Display_text("you shuffle his corpse and beneath you find a " + Modifier + " Axe");
                             HasWeapon = true;
                         }
                         else
                         {
                             player_health += 2;
-                            ascii_art(@"teddy bear"); //add
+                            ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\Teddy Bear.txt"); //add
                             Display_text("You found a teddy bear");
                         }
                     }
@@ -214,19 +215,16 @@ namespace HalfDead
                         break;
                     }
                 } while (ans != "yes" | ans != "no");
-
-                Console.Clear();
-                ascii_art(@"picture of destroyed room");
-                Display_text((HasWeapon) ? "Would you like to search around more? [yes/no]" : "Would you like to search around? [yes/no]");
-                string choice = Console.ReadLine();
-
-                if(choice == "yes")
-                {
-                    //search around more
-                }
-
             }
 
+            ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\doom corridor.txt");
+            Display_text((HasWeapon)? "Would you like to search around more? [yes/no]" : "Would you like to search around? [yes/no]");
+            string choice = Console.ReadLine();
+
+            if (choice == "yes")
+            {
+
+            }
         }
 
         static void Right_Corridor()
@@ -241,13 +239,13 @@ namespace HalfDead
 
         static void Main_room(bool Been_in_left)
         {
-            ascii_art(@"(control room)");  // find a control room picture
+            ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\console.txt");  // find a control room picture
             Display_text("You turn around, all contempt and malice flushed as it washes over you.");
             wait();
-            ascii_art(@"(Three corridors)"); // picture of three corridors
+            ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\corridors.txt"); // picture of three corridors
             Display_text("Now to escape");
             wait();
-            ascii_art(@"(Three corridors)");
+            ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\corridors.txt");
             Display_text("Which corridor do you go down?");
             Display_text("1 - go left         ");
             Display_text("2 - go up the stairs");
@@ -257,20 +255,20 @@ namespace HalfDead
             switch (Choice)
             {
                 case 1:
-                    ascii_art(@"down corridor"); // find this
+                    ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\corridor.txt"); // find this
                     Display_text("you go down the left corridor");
                     Left_Corridor(Been_in_left);
                     Been_in_left = true;
                     break;
 
                 case 2:
-                    ascii_art(@"up stairs"); // find this
+                    ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\stairs.txt"); // find this
                     Display_text("you go up the stairs corridor");
                     Up_Stairs();
                     break;
 
                 case 3:
-                    ascii_art(@"down corridor"); // find this
+                    ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\corridor.txt"); // find this
                     Display_text("you go down the right corridor");
                     Right_Corridor();
                     break;
