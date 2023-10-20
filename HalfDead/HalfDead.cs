@@ -109,37 +109,43 @@ namespace HalfDead
                 }
                 Display_text("Health = " + player_health);
 
-                int choice;
+                string choice;
 
                 do
                 {
-                    choice = int.Parse(Console.ReadLine());
-
-                    switch (choice)
+                    choice = Console.ReadLine();
+                    if (choice == "1" | choice == "2" | choice == "3" | choice == "4")
                     {
-                        case 1:
-                            break;
+                        int Choice = int.Parse(choice);
+                        switch (Choice)
+                        {
+                            case 1:
+                                break;
 
-                        case 2:
-                            player_health += 2;
-                            Display_text("your charecter regains two health");
-                            break;
+                            case 2:
+                                player_health += 2;
+                                Display_text("your charecter regains two health");
+                                break;
 
-                        case 3:
-                            boss_health -= weapon_damage[0];
-                            Display_text("The " + boss_name + " is damaged.");
-                            break;
-                        case 4:
-                            boss_health -= weapon_damage[1];
-                            Display_text("The "+ boss_name + " is heavily damaged!");
-                            break;
+                            case 3:
+                                boss_health -= weapon_damage[0];
+                                Display_text("The " + boss_name + " is damaged.");
+                                break;
+                            case 4:
+                                boss_health -= weapon_damage[1];
+                                Display_text("The " + boss_name + " is heavily damaged!");
+                                break;
+                        }
+                        Display_text("The " + boss_name + "s" + " health is now " + boss_health);
+
+                        Console.ReadKey();
+                        Console.Clear();
                     }
-                    Display_text("The " + boss_name + "s" + " health is now " + boss_health);
-
-                    Console.ReadKey();
-                    Console.Clear();
-
-                } while(choice < 1 | choice > 4);
+                    else
+                    {
+                        Display_text("you dont have an attack equipped there!");
+                    }
+                } while(choice != "1" | choice != "4" | choice != "2" | choice != "3");
 
             } while (boss_health != 0);
 
@@ -204,6 +210,7 @@ namespace HalfDead
                             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\Axe.txt"); //add
                             Display_text("you shuffle his corpse and beneath you find a " + Modifier + " Axe");
                             HasWeapon = true;
+                            wait();
                             break;
                         }
                         else
@@ -282,11 +289,24 @@ namespace HalfDead
                                     //ascii_art(@"daemon");
                                     Display_text("AND LAUNCHES INTO FULL ATTACK!");
                                     wait();
-                                    if(battle(Boss_attacks, "Daemon"))
+                                    if (HasWeapon)
                                     {
-                                        Display_text("Congratulations, though wounded you have won and live to fight on to the surface");
-                                        player_health = Player_health;
-                                        Display_text(""); //add the finding of the key card
+                                        if (battle(Boss_attacks, "Daemon"))
+                                        {
+                                            Display_text("Congratulations, though wounded you have won and live to fight on to the surface");
+                                            player_health = Player_health;
+                                            Display_text(""); //add the finding of the key card
+                                        }
+                                        else
+                                        {
+                                            //ascii_art(@"death_image");
+                                            Display_text("Ouch!, you have been bested");
+                                            Display_text("thankfully due to the strangeness of what is going on you are able");
+                                            Display_text("to continue from a previous point in time");
+                                            wait();
+                                            Main_room(Been);
+                                            break;
+                                        }
                                     }
                                     else
                                     {
@@ -294,6 +314,8 @@ namespace HalfDead
                                         Display_text("Ouch!, you have been bested");
                                         Display_text("thankfully due to the strangeness of what is going on you are able");
                                         Display_text("to continue from a previous point in time");
+                                        wait();
+                                        Main_room(Been);
                                         break;
                                     }
                                 }
