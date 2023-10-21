@@ -13,9 +13,8 @@ namespace HalfDead
 {
     internal class HalfDead
     {
-        static int player_health = 10;
-        static int boss_health = 10;
-        static string[] player_options = { "1 - block next attack", "2 - Heal", "3 - light attack", "4 - heavy attack" };
+        static int player_health = 20;
+        static string[] player_options = { "1 - Heal", "2 - light attack", "3 - heavy attack"};
         static int[] weapon_damage = { 3, 5 };
         static string Modifier;
         static bool HasWeapon;
@@ -84,10 +83,10 @@ namespace HalfDead
             }
             sr.Close();
         }
-        static bool battle(string[] boss_attacks, string boss_name)
+        static bool battle(string[] boss_attacks, string boss_name, int boss_health)
         {
             int boss_attack;
-            do
+            while (boss_health != 0)
             {
                 do
                 {
@@ -104,10 +103,7 @@ namespace HalfDead
 
                 for (int i = 0; i < player_options.Length; i++)
                 {
-                    if (player_options[i] != "")
-                    {
-                        Display_text(player_options[i]);
-                    }
+                    Display_text(player_options[i]);
                 }
                 Display_text("Health = " + player_health);
 
@@ -116,40 +112,30 @@ namespace HalfDead
                 do
                 {
                     choice = Console.ReadLine();
-                    if (choice == "1" | choice == "2" | choice == "3" | choice == "4")
+                    int Choice = int.Parse(choice);
+                    switch (Choice)
                     {
-                        int Choice = int.Parse(choice);
-                        switch (Choice)
-                        {
-                            case 1:
-                                break;
-
-                            case 2:
-                                player_health += 2;
-                                Display_text("your charecter regains two health");
-                                break;
-
-                            case 3:
-                                boss_health -= weapon_damage[0];
-                                Display_text("The " + boss_name + " is damaged.");
-                                break;
-                            case 4:
-                                boss_health -= weapon_damage[1];
-                                Display_text("The " + boss_name + " is heavily damaged!");
-                                break;
-                        }
-                        Display_text("The " + boss_name + "s" + " health is now " + boss_health);
-
-                        Console.ReadKey();
-                        Console.Clear();
+                        case 1:
+                            player_health += 5;
+                            Display_text("your charecter regains two health");
+                            break;
+                        case 2:
+                            boss_health -= weapon_damage[0];
+                            Display_text("The " + boss_name + " is damaged.");
+                            break;
+                        case 3:
+                            boss_health -= weapon_damage[1];
+                            Display_text("The " + boss_name + " is heavily damaged!");
+                            break;
+                        default:
+                            Display_text("you dont have an attack equipped there!");
+                            break;
                     }
-                    else
-                    {
-                        Display_text("you dont have an attack equipped there!");
-                    }
+                    Display_text("The " + boss_name + "'s" + " health is now " + boss_health);
+                    wait();
                 } while (choice != "1" | choice != "4" | choice != "2" | choice != "3");
 
-            } while (boss_health != 0);
+            }
 
             if (boss_health <= 0)
             {
@@ -217,7 +203,7 @@ namespace HalfDead
                         }
                         else
                         {
-                            player_health += 2;
+                            player_health += 5;
                             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\Teddy Bear.txt"); //add
                             Display_text("You found a teddy bear");
                             wait();
@@ -293,7 +279,7 @@ namespace HalfDead
                                     wait();
                                     if (HasWeapon)
                                     {
-                                        if (battle(Boss_attacks, "Daemon"))
+                                        if (battle(Boss_attacks, "Daemon", 40))
                                         {
                                             Display_text("Congratulations, though wounded you have won and live to fight on to the surface");
                                             player_health = Player_health;
