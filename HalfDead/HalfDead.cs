@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
+using System.Xml.Serialization;
 
 namespace HalfDead
 {
@@ -15,15 +16,23 @@ namespace HalfDead
     {
         static int player_health = 20;
         static string[] player_options = { "1 - Heal", "2 - light attack", "3 - heavy attack"};
-        static int[] weapon_damage = { 3, 5 };
+        static int[] weapon_damage = new int[2];
         static string Modifier;
-        static bool HasWeapon;
-        static bool Has_pet;
-        static bool Beat_Daemon;
-        static bool HasBeen_Left;
-        static bool HasKeycard;
+        static bool HasWeapon = false;
+        static bool Has_pet = false;
+        static bool Beat_Daemon = false;
+        static int HasBeen_Left = 0;
+        static bool HasKeycard = false;
         static Random rnd = new Random();
 
+        static string Random_weapon()
+        {
+            int choice = rnd.Next();
+            switch (choice)
+            {
+                case 0: weapon_damage[0] = ; weapon_damage[1] = ; return ""; // come up with a list of weapons and damages.
+            }
+        }
         static void wait()
         {
             Console.ReadKey();
@@ -176,7 +185,7 @@ namespace HalfDead
             Display_text("you enter a room half destroyed and littered with bodies");
             wait();
 
-            if (!HasBeen_Left)
+            if (HasBeen_Left == 0)
             {
                 ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\Dead man.txt"); //add
                 Display_text("in front of you lays a body surrounded by a faint glow.");
@@ -216,10 +225,10 @@ namespace HalfDead
                     }
                 } while (ans != "yes" | ans != "no");
             }
-            HasBeen_Left = true;
+            HasBeen_Left += 1;
 
             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\doom corridor.txt");
-            Display_text((HasWeapon) ? "Would you like to search around more? [yes/no]" : "Would you like to search around? [yes/no]");
+            Display_text((HasBeen_Left > 0) ? "Would you like to search around more? [yes/no]" : "Would you like to search around? [yes/no]");
             string choice;
 
             do
@@ -229,7 +238,7 @@ namespace HalfDead
                 {
                     ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\doom corridor.txt");
                     Display_text((!Has_pet) ? "you find a shuffling cabinet and a door" : (!Beat_Daemon) ? "you have found a door" : "there is nothing else for you to find here");
-                    Display_text((!HasBeen_Left) ? "1 - go back and search body" : "1 - go back");
+                    Display_text((!HasWeapon | player_health == 20) ? "1 - go back and search body" : "1 - go back");
                     Display_text((!Has_pet) ? "2 - search the cabinet" : "");
                     Display_text((!Beat_Daemon) ? "3 - open the door" : "");
 
@@ -252,7 +261,7 @@ namespace HalfDead
                                     Has_pet = true;
                                     ascii_art(@"pet");
                                     Display_text("you finally have someone to care for and who cares for you");
-                                    Display_text("you pocket him and continue");
+                                    Display_text("you pocket them and continue");
                                 }
                                 else
                                 {
@@ -285,6 +294,7 @@ namespace HalfDead
                                             player_health = Player_health;
                                             wait();
                                             Display_text("you notice the Daemon's Heart is still beating."); //add the finding of the key card
+                                            Display_text("you have the feeling his body wont remain forever");
                                             Display_text("Do you search his body? [yes/no]");
                                             string choice_other;
 
@@ -294,8 +304,15 @@ namespace HalfDead
                                                 switch (choice_other)
                                                 {
                                                     case "yes":
-                                                        Display_text("you stab deep into the Daemons chest and hits something");
-                                                        Display_text("");
+                                                        Display_text("you stab deep into the Daemons chest and your weapon hits something");
+                                                        Display_text("you begin to peel the layers flesh and at the center of it all");
+                                                        Display_text("you find a heart shaped like a fist");
+                                                        wait();
+                                                        HasKeycard = true;
+                                                        Display_text("you slit it open and discover a keycard still grasped in whovers hand this was");
+                                                        Display_text("you pocket it and continue heading back to the control room.");
+                                                        wait();
+                                                        Main_room();
                                                         break;
 
                                                     case "no":
@@ -336,6 +353,10 @@ namespace HalfDead
                                     wait();
                                 }
                                 break;
+                            default:
+                                Display_text("thats not a valid input try something else!");
+                                wait();
+                                break;
                         }
 
                     } while (Choice < 1 | Choice > 3);
@@ -360,6 +381,14 @@ namespace HalfDead
 
         static void Main_room()
         {
+            if (!HasWeapon)
+            {
+                Display_text("as you enter you notice comething glinting by one of the corners.");
+                wait();
+                Weapon_Modifier();
+                Display_text("you go to investigate and find a " + Modifier + Random_weapon());
+                wait();
+            }
             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\corridors.txt");
             Display_text("Which corridor do you go down?");
             Display_text("1 - go left         ");
@@ -370,19 +399,19 @@ namespace HalfDead
             switch (Choice)
             {
                 case 1:
-                    ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\corridor.txt"); // find this
+                    ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\corridor.txt");
                     Display_text("you go down the left corridor");
                     Left_Corridor();
                     break;
 
                 case 2:
-                    ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\stairs.txt"); // find this
-                    Display_text("you go up the stairs corridor");
+                    ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\stairs.txt");
+                    Display_text("you go up the stairs");
                     Up_Stairs();
                     break;
 
                 case 3:
-                    ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\corridor.txt"); // find this
+                    ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\corridor.txt");
                     Display_text("you go down the right corridor");
                     Right_Corridor();
                     break;
