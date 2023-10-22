@@ -18,6 +18,7 @@ namespace HalfDead
         static string[] player_options = { "1 - Heal", "2 - light attack", "3 - heavy attack"};
         static int[] weapon_damage = new int[2];
         static string Modifier;
+        static bool HasHead = false;
         static bool HasWeapon = false;
         static bool Has_pet = false;
         static bool Beat_Daemon = false;
@@ -376,7 +377,23 @@ namespace HalfDead
 
         static void Up_Stairs()
         {
+            Display_text("you head up the sludgy stairs and round a corner to find a locked door!");
+            wait();
+            if (HasHead && HasKeycard)
+            {
+                Display_text("you place the key card in the slot."); // description for opening door and boss battle.
+                Display_text("scan the security guards face");
+                Display_text("and type the passkey into the lock");
+                wait();
+                Display_text("the door finally creeks open slowly");
+                wait();
+                Display_text("and behind it is a "); // come up with a monster
+                string[] attacks = { "", "soul crush", "", "","",""}; //come up with attacks
+                if (battle(attacks, "boss_name_here", 80))
+                {
 
+                }
+            }
         }
 
         static void Main_room()
