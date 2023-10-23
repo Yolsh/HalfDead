@@ -6,6 +6,7 @@ using System.Runtime.Remoting.Channels;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
@@ -24,6 +25,7 @@ namespace HalfDead
         static bool Beat_Daemon = false;
         static int HasBeen_Left = 0;
         static bool HasKeycard = false;
+        static bool HasPassword = false;
         static Random rnd = new Random();
 
         static string Random_weapon()
@@ -31,8 +33,9 @@ namespace HalfDead
             int choice = rnd.Next();
             switch (choice)
             {
-                case 0: weapon_damage[0] = ; weapon_damage[1] = ; return ""; // come up with a list of weapons and damages.
+                //case 0: weapon_damage[0] = ; weapon_damage[1] = ; return ""; // come up with a list of weapons and damages.
             }
+            return "hello";
         }
         static void wait()
         {
@@ -178,6 +181,17 @@ namespace HalfDead
                 case 1: Console.Clear(); break;
                 case 2: Environment.Exit(0); break;
             }
+        }
+
+        static void End_credits()
+        {
+            string[] credits = {"Head Producer - Josh Appleby-Smith", "", "Head Writer - Josh Appleby-Smith", "", "bla - bla", "", "network chuck", "", "lol - funny", "", "idk what to type", "", "add freinds here", "", "shame no one helped me", "", "production team:", "ha ha ha", "", "this is probably enough", "", "lol - no it isnt", "", "i need a way longer list of freinds", "", "head designer - i stole it all of the internet", "", "and they get no credit", "bottom line", "", "should scrolll now", "", "i really hope this works", "", "oh god i hope it works"};
+            for (int i = 0; i < credits.Length; i++)
+            {
+                Display_text(credits[i]);
+                Thread.Sleep(500);
+            }
+            Console.ReadKey();
         }
 
         static void Left_Corridor()
@@ -379,7 +393,7 @@ namespace HalfDead
         {
             Display_text("you head up the sludgy stairs and round a corner to find a locked door!");
             wait();
-            if (HasHead && HasKeycard)
+            if (HasHead && HasKeycard && HasPassword)
             {
                 Display_text("you place the key card in the slot."); // description for opening door and boss battle.
                 Display_text("scan the security guards face");
@@ -391,8 +405,36 @@ namespace HalfDead
                 string[] attacks = { "", "soul crush", "", "","",""}; //come up with attacks
                 if (battle(attacks, "boss_name_here", 80))
                 {
+                    Display_text("Congratulations, you have defeated boss_name_here");
+                    Display_text("finally you can leave this god forsaken den of evil");
+                    wait();
+                    Display_text("you head over to the elevator");
+                    wait();
+                    // call final ending section.
 
                 }
+                else
+                {
+                    Display_text("you where so close");
+                    Display_text("and as you edge closer to death you notice boss_name_here cry out");
+                    Display_text("you realise how much pain you have caused him and everyone else and finally realise.");
+                    wait();
+                    Display_text("despite all you're efforts you where never going to escape");
+                    Display_text("you had to die for the pain you had caused");
+                    // call end credits.
+                }
+            }
+            else
+            {
+                Display_text("you dont have all the items required to gain access to this room.");
+                wait();
+                Display_text("you notice that there is a retina scanner");
+                Display_text("a keycard reader");
+                Display_text("and a keypad");
+                wait();
+                Display_text("you decide to head back in search of these items.");
+                wait();
+                Main_room();
             }
         }
 
@@ -438,6 +480,7 @@ namespace HalfDead
         static void Main(string[] args)
         {
             Title_screen();
+            End_credits();
             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\console.txt");  // find a control room picture
             Display_text("You turn around, all contempt and malice flushed as it washes over you.");
             wait();
