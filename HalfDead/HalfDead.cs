@@ -26,14 +26,19 @@ namespace HalfDead
         static int HasBeen_Left = 0;
         static bool HasKeycard = false;
         static bool HasPassword = false;
+        static bool been_main = false;
         static Random rnd = new Random();
 
         static string Random_weapon()
         {
             int choice = rnd.Next();
-            switch (choice)
+            switch (choice%5)
             {
-                //case 0: weapon_damage[0] = ; weapon_damage[1] = ; return ""; // come up with a list of weapons and damages.
+                case 0: weapon_damage[0] = 2; weapon_damage[1] = 3; return "knife";
+                case 1: weapon_damage[0] = 3; weapon_damage[1] = 5; return "rifle";
+                case 2: weapon_damage[0] = 4; weapon_damage[1] = 3; return "shotgun";
+                case 3: weapon_damage[0] = 0; weapon_damage[1] = 6; return "bombs";
+                case 4: weapon_damage[0] = 4; weapon_damage[1] = 4; return "katana";
             }
             return "hello";
         }
@@ -270,11 +275,11 @@ namespace HalfDead
                             case 2:
                                 if (!Has_pet)
                                 {
-                                    ascii_art(@"cabinet");
+                                    //ascii_art(@"cabinet");
                                     Display_text("The Cabinet shakes and creaks as you slowly pull it aside and within you find your new best freind");
                                     wait();
                                     Has_pet = true;
-                                    ascii_art(@"pet");
+                                    //ascii_art(@"pet");
                                     Display_text("you finally have someone to care for and who cares for you");
                                     Display_text("you pocket them and continue");
                                 }
@@ -440,7 +445,7 @@ namespace HalfDead
 
         static void Main_room()
         {
-            if (!HasWeapon)
+            if (!HasWeapon && been_main)
             {
                 Display_text("as you enter you notice comething glinting by one of the corners.");
                 wait();
@@ -480,7 +485,7 @@ namespace HalfDead
         static void Main(string[] args)
         {
             Title_screen();
-            End_credits();
+            //End_credits();
             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\console.txt");  // find a control room picture
             Display_text("You turn around, all contempt and malice flushed as it washes over you.");
             wait();
