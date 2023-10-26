@@ -195,6 +195,29 @@ namespace HalfDead
             } while (Choice != 1 && Choice != 2);
         }
 
+        static void Endings(string type)
+        {
+            switch (type)
+            {
+                case "pet kill":
+                    Display_text("as you turn your pet backs away from you slowly snarling");
+                    wait();
+                    Display_text("and then unprovoked launches at you!");
+                    Display_text("you scramble for your weapon but its no good");
+                    wait();
+                    Display_text("you slowly slip into a helpless, endless slumber");
+                    Display_text("and as you do so you hear the screams of another man");
+                    wait();
+                    Display_text("you deserve this look what you did to the world");
+                    Display_text("Look what pain YOU have caused us all");
+                    wait();
+                    Display_text("and with your last breath held tightly you notice him spit on you");
+                    End_credits();
+                    Environment.Exit(0);
+                    break;
+            }
+        }
+
         static void End_credits()
         {
             string[] credits = {"Head Producer - Josh Appleby-Smith", "", "Head Writer - Josh Appleby-Smith", "", "bla - bla", "", "network chuck", "", "lol - funny", "", "idk what to type", "", "add freinds here", "", "shame no one helped me", "", "production team:", "ha ha ha", "", "this is probably enough", "", "lol - no it isnt", "", "i need a way longer list of freinds", "", "head designer - i stole it all of the internet", "", "and they get no credit", "bottom line", "", "should scrolll now", "", "i really hope this works", "", "oh god i hope it works"};
@@ -203,7 +226,9 @@ namespace HalfDead
                 Display_text(credits[i]);
                 Thread.Sleep(500);
             }
-            Console.ReadKey();
+            string finish = "THANKYOU FOR PLAYING!!!";
+            Console.SetCursorPosition((Console.WindowWidth - finish.Length) / 2, Console.WindowHeight / 2);
+            Console.WriteLine(finish);
         }
 
         static void Left_Corridor()
@@ -466,7 +491,7 @@ namespace HalfDead
                                     wait();
                                     Display_text("you walk over to it and notice something is wedged in the light");
                                     Display_text("you yank it out noticing what seems to be the remains of a security uniform collar");
-                                    Display_text("still attached to his neck");
+                                    Display_text("still attached to the stump of a fully severed head");
                                     wait();
                                     Display_text("do you keep the head? [yes/no]");
                                     string ans2;
@@ -475,10 +500,17 @@ namespace HalfDead
                                         ans2 = Console.ReadLine().ToUpper();
                                         if (ans2 == "YES")
                                         {
-                                            Display_text("you decide to pocket the head");
-                                            HasHead = true;
-                                            wait();
-                                            Right_Corridor();
+                                            if (!Has_pet)
+                                            {
+                                                Display_text("you decide to pocket the head");
+                                                HasHead = true;
+                                                wait();
+                                                Right_Corridor();
+                                            }
+                                            else
+                                            {
+                                                Endings("pet kill");
+                                            }
                                         }
                                         else if (ans2 == "NO")
                                         {
@@ -514,6 +546,10 @@ namespace HalfDead
                         } while (ans != "YES" | ans != "NO");
                         break;
 
+                    case 2:
+
+                        break;
+
                     case 4:
                         Display_text("you decide to turn back");
                         wait();
@@ -525,7 +561,7 @@ namespace HalfDead
                         break;
                 }
 
-            } while (choice < 1 | choice > 4);
+            } while (choice < 1 && choice > 4);
         }
 
         static void Up_Stairs()
