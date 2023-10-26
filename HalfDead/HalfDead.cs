@@ -24,9 +24,9 @@ namespace HalfDead
         static bool Has_pet = false;
         static bool Beat_Daemon = false;
         static int HasBeen_Left = 0;
+        static bool HasBeen_Right = false;
         static bool HasKeycard = false;
         static bool HasPassword = false;
-        static bool been_main = false;
         static Random rnd = new Random();
 
         static string Random_weapon()
@@ -103,8 +103,9 @@ namespace HalfDead
         }
         static bool battle(string[] boss_attacks, string boss_name, int boss_health)
         {
+            int PlayerStartHealth = player_health;
             int boss_attack;
-            while (boss_health != 0)
+            while (boss_health > 0)
             {
                 do
                 {
@@ -125,17 +126,16 @@ namespace HalfDead
                 }
                 Display_text("Health = " + player_health);
 
-                string choice;
+                int choice;
 
                 do
                 {
-                    choice = Console.ReadLine();
-                    int Choice = int.Parse(choice);
-                    switch (Choice)
+                    choice = int.Parse(Console.ReadLine());
+                    switch (choice)
                     {
                         case 1:
-                            player_health += 5;
-                            Display_text("your charecter regains two health");
+                            player_health = PlayerStartHealth;
+                            Display_text("your charecter regains five health");
                             break;
                         case 2:
                             boss_health -= weapon_damage[0];
@@ -151,7 +151,7 @@ namespace HalfDead
                     }
                     Display_text("The " + boss_name + "'s" + " health is now " + boss_health);
                     wait();
-                } while (choice != "1" | choice != "4" | choice != "2" | choice != "3");
+                } while (choice != 1 && choice != 2 && choice != 3);
 
             }
 
@@ -175,17 +175,24 @@ namespace HalfDead
 
         static void Title_screen()
         {
-            ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\krogg.txt"); // make some title art with an ascii art generator
-
-            Display_text("1 - play game");
-            Display_text("2 - exit     ");
-
-            int Choice = int.Parse(Console.ReadLine());
-            switch (Choice)
+            int Choice;
+            do
             {
-                case 1: Console.Clear(); break;
-                case 2: Environment.Exit(0); break;
-            }
+
+
+                ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\krogg.txt"); // make some title art with an ascii art generator
+
+                Display_text("1 - play game");
+                Display_text("2 - exit     ");
+
+                Choice = int.Parse(Console.ReadLine());
+                switch (Choice)
+                {
+                    case 1: Console.Clear(); break;
+                    case 2: Environment.Exit(0); break;
+                    default: break;
+                }
+            } while (Choice != 1 && Choice != 2);
         }
 
         static void End_credits()
@@ -241,7 +248,13 @@ namespace HalfDead
                     }
                     else if (ans == "no")
                     {
+                        HasBeen_Left += 1;
+                        Console.Clear();
                         Main_room();
+                    }
+                    else
+                    {
+                        Display_text("that was not an option, try again");
                     }
                 } while (ans != "yes" | ans != "no");
             }
@@ -391,7 +404,128 @@ namespace HalfDead
 
         static void Right_Corridor()
         {
+            if (!HasBeen_Right)
+            {
+                Display_text("you enter a room filled with glowing eggs");
+                Display_text("they begin to writhe and squirm");
+                wait();
+                Display_text("and then errupt with enourmous force spewing a cloud of infant chaos");
+                if (HasWeapon)
+                {
+                    string[] boss_attacks = {"", "", "swarm kill", "coallition of chaos", "bodily vortex"};
+                    if (battle(boss_attacks, "chaos swarm", 40))
+                    {
+                        Display_text("congratulations you have beaten the chaos swarm");
+                        wait();
+                        Display_text("after beating the chaos swarm you pause to look around");
+                    }
+                    else
+                    {
+                        Display_text("you have been bested and as a result sent back for more");
+                        Display_text("and tribulation");
+                        wait();
+                        Main_room();
+                    }
+                }
+                else
+                {
+                    Display_text("you have no weapon and therefore are eaten instantly by the chaos swarm");
+                    wait();
+                    Main_room();
+                }
+            }
+            HasBeen_Right = true;
+            Display_text("you notice an electrical cupboard in the corner");
+            Display_text("a door on the back wall");
+            Display_text("and an elevator on the wall behind you");
+            wait();
+            Display_text("where do you search");
+            Display_text("1 - electrics cupboard");
+            Display_text("2 - door");
+            Display_text("3 - elevator");
+            Display_text("4 - head back");
+            int choice;
 
+            do
+            {
+                choice = int.Parse(Console.ReadLine());
+                switch (choice)
+                {
+                    case 1:
+                        Display_text("you open the cupboard door and discover a breaker for the lights has been flipped");
+                        Display_text("do you turn it back on?");
+                        string ans;
+                        do
+                        {
+                            ans = Console.ReadLine().ToUpper();
+                            if (ans == "YES")
+                            {
+                                Display_text((!HasHead) ? "you flip the breaker back over and notice one of the lights isn't working" : "you have already flipped the breaker");
+                                if (!HasHead)
+                                {
+                                    wait();
+                                    Display_text("you walk over to it and notice something is wedged in the light");
+                                    Display_text("you yank it out noticing what seems to be the remains of a security uniform collar");
+                                    Display_text("still attached to his neck");
+                                    wait();
+                                    Display_text("do you keep the head? [yes/no]");
+                                    string ans2;
+                                    do
+                                    {
+                                        ans2 = Console.ReadLine().ToUpper();
+                                        if (ans2 == "YES")
+                                        {
+                                            Display_text("you decide to pocket the head");
+                                            HasHead = true;
+                                            wait();
+                                            Right_Corridor();
+                                        }
+                                        else if (ans2 == "NO")
+                                        {
+                                            Display_text("you place the head back where you found it, turn of the lights and look around the room some more");
+                                            wait();
+                                            Right_Corridor();
+                                        }
+                                        else
+                                        {
+                                            Display_text("thats not an option, try again");
+                                        }
+                                    }while (ans2 != "YES" | ans2 != "NO");
+                                }
+                                else
+                                {
+                                    wait();
+                                    Main_room();
+                                }
+
+                                Right_Corridor();
+                            }
+                            else if (ans == "NO")
+                            {
+                                Display_text("you turn back to the room");
+                                wait();
+                                Right_Corridor();
+                            }
+                            else
+                            {
+                                Display_text("that was not an option try again");
+                            }
+
+                        } while (ans != "YES" | ans != "NO");
+                        break;
+
+                    case 4:
+                        Display_text("you decide to turn back");
+                        wait();
+                        Main_room();
+                        break;
+
+                    default:
+                        Display_text("thats an incorrect input try again");
+                        break;
+                }
+
+            } while (choice < 1 | choice > 4);
         }
 
         static void Up_Stairs()
@@ -445,12 +579,14 @@ namespace HalfDead
 
         static void Main_room()
         {
-            if (!HasWeapon && been_main)
+            player_health = 20;
+            if (!HasWeapon && HasBeen_Left > 0)
             {
-                Display_text("as you enter you notice comething glinting by one of the corners.");
+                Display_text("as you reenter you notice comething glinting by one of the corners.");
                 wait();
                 Weapon_Modifier();
-                Display_text("you go to investigate and find a " + Modifier + Random_weapon());
+                Display_text("you go to investigate and find a " + Modifier + " " + Random_weapon());
+                HasWeapon = true;
                 wait();
             }
             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\corridors.txt");
@@ -485,7 +621,6 @@ namespace HalfDead
         static void Main(string[] args)
         {
             Title_screen();
-            //End_credits();
             ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\console.txt");  // find a control room picture
             Display_text("You turn around, all contempt and malice flushed as it washes over you.");
             wait();
@@ -493,10 +628,7 @@ namespace HalfDead
             Display_text("Now to escape");
             wait();
             Main_room();
-
-            // test stuff to make the functions i needed
-            ascii_art(@"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\krogg.txt");
-            string[] boss_attacks = { "", "", "", "fireball", "beard of strangulation" };
+            End_credits();
 
             Console.ReadKey();
         }
