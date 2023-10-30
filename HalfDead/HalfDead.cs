@@ -393,8 +393,8 @@ namespace HalfDead
                                 {
                                     string[] Boss_attacks = { "", "", "", "fireball", "beard of strangulation" };
                                     int Player_health = player_health;
-                                    ascii_art(@"door.txt");
                                     wait();
+                                    ascii_art(@"door.txt");
                                     Display_text("you slowly open the door");
                                     wait();
                                     ascii_art(@"daemon.txt");
