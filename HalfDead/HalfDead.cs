@@ -258,7 +258,7 @@ namespace HalfDead
 
         static void End_credits()
         {
-            string[] credits = {"Head Producer - Josh Appleby-Smith", "", "Head Writer - Josh Appleby-Smith", "", "bla - bla", "", "network chuck", "", "lol - funny", "", "idk what to type", "", "add freinds here", "", "shame no one helped me", "", "production team:", "ha ha ha", "", "this is probably enough", "", "lol - no it isnt", "", "i need a way longer list of freinds", "", "head designer - i stole it all of the internet", "", "and they get no credit", "bottom line", "", "should scrolll now", "", "i really hope this works", "", "oh god i hope it works"};
+            string[] credits = {"Head Producer - Josh Appleby-Smith", "", "Head Writer - Josh Appleby-Smith", "", "ideas help - Tommy Green", "", "Weapon modifiers:", "Nifemi Akinyegun", "James Evans", "Jonathan Fry", "", "Weapons Development:", "Tim Smith", "Ruth Appleby-Smith", "Maisie Appleby-Smith", "", "production team:", "Will Mcdevit", "Joe Williams"};
             for (int i = 0; i < credits.Length; i++)
             {
                 Display_text(credits[i]);
@@ -267,6 +267,8 @@ namespace HalfDead
             string finish = "THANKYOU FOR PLAYING!!!";
             Console.SetCursorPosition((Console.WindowWidth - finish.Length) / 2, Console.WindowHeight / 2);
             Console.WriteLine(finish);
+            ascii_art("@")
+            Thread.Sleep(1000);
         }
 
         static void Left_Corridor()

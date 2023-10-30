@@ -1,0 +1,6 @@
+need to add in:
+	ability to go back to the password room after boos defeat
+	title art : @C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\title.txt
+	eggs: @C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\eggs.txt
+	first boss: @C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\final boss.txt
+	
