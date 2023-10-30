@@ -215,6 +215,44 @@ namespace HalfDead
                     End_credits();
                     Environment.Exit(0);
                     break;
+                case "secret boss":
+                    wait();
+                    Display_text("after the battle you stand looking around and then from somwhere distant");
+                    Display_text("you hear a voice");
+                    wait();
+                    Display_text("you require enlightenment for you know not the pain you have caused");
+                    wait();
+                    Display_text("long before you awoke in this hell scape you worked here");
+                    Display_text("a top scientist infact");
+                    wait();
+                    Display_text("and you grew weary and hatefull of the people who controlled your work and your life");
+                    Display_text("so you hatched a plan to get back at them");
+                    wait();
+                    Display_text("you came down hear while everyone else was celebrating upstairs, and smashed every console in sight");
+                    Display_text("and as you worked as the servant of your own anger you failed to realise that you had infact created a rift");
+                    wait();
+                    Display_text("a world beyond your imagining spilled into ours and caused death, destruction, confusion and brewery of a pure hatred of");
+                    Display_text("the person who caused this");
+                    wait();
+                    Display_text("you have created your own worst nightmare");
+                    wait();
+                    Display_text("in agony your charecter kills himself viewing his actions of death worthy");
+                    End_credits();
+                    Environment.Exit(0);
+                    break;
+
+                case "true ending":
+                    Display_text("and enter");
+                    Display_text("it begins to head to the surface as you feel relief wash over you");
+                    wait();
+                    Display_text("you reach the top, the doors open and you are met by guns on all sides");
+                    wait();
+                    Display_text("the people behind them are crying abd the scream you must die for the pain you have caused");
+                    wait();
+                    Display_text("and on that sentiment the firing squad open up killing you instantaniously");
+                    End_credits();
+                    Environment.Exit(0);
+                    break;
             }
         }
 
@@ -547,7 +585,81 @@ namespace HalfDead
                         break;
 
                     case 2:
+                        int rand = rnd.Next();
+                        if (rand%40 == 0)
+                        {
+                            Display_text("you creek open the door, and inside find");
+                            Display_text("a huge and evil chaos crab");
+                            string[] attacks = { "chaos scream", "", "", "pincer smash", "", "chaotic pierce" };
+                            if (battle(attacks, "chaos crab", 45))
+                            {
+                                Endings("secret boss");
+                            }
+                        }
+                        else
+                        {
+                            Display_text("nothing is here just a huge auditorium");
+                            wait();
+                            Display_text("but as you look around you notice that every surface is pock marked with bullet holes");
+                            Display_text("a truely epic battle must have taken place here at some point");
+                            wait();
+                            Right_Corridor();
+                        }
+                        break;
 
+                    case 3:
+                        Display_text("you enter the elevator hoping it will take you to the surface and as the doors close");
+                        Display_text("you realise you never selected a floor to go to");
+                        wait();
+                        Display_text("the elevator begins to head down");
+                        wait();
+                        if (Has_pet)
+                        {
+                            Endings("pet kill");
+                        }
+                        else
+                        {
+                            Display_text("the doors slowly open and you are greeted with a truly horrifying sight");
+                            wait();
+                            Display_text("a grotesque creature, a mutant some might say, was stood over a microwave eating it");
+                            Display_text("only the microwave was alive and screaming in agony");
+                            wait();
+                            Display_text("the beast turns and ATTACKS");
+                            wait();
+                            string[] attacks = {"mutant growl", "", "shards of bone", "", "", "power slam"};
+                            if (battle(attacks, "mutant", 40))
+                            {
+                                Display_text("you sprint over to the microwave and ask if its alright");
+                                wait();
+                                Display_text("he responds:");
+                                Display_text("yes im quite alright and if you want to leave you will need this information from me:");
+                                Display_text("do you take the info? [yes/no]");
+                                string Ans;
+                                do
+                                {
+                                    Ans = Console.ReadLine().ToUpper();
+                                    if (Ans == "YES")
+                                    {
+                                        Display_text("he wispers in your ear the password for a security door");
+                                        HasPassword = true;
+                                        wait();
+                                        Display_text("there is nothing else down here so you head back up");
+                                        wait();
+                                        Right_Corridor();
+                                    }
+                                    else if (Ans == "NO")
+                                    {
+                                        Display_text("there is nothing else here so you decide to head back");
+                                        wait();
+                                        Right_Corridor();
+                                    }
+                                    else
+                                    {
+                                        Display_text("thats not an option, try again:");
+                                    }
+                                } while (Ans != "YES" && Ans != "NO");
+                            }
+                        }
                         break;
 
                     case 4:
@@ -576,27 +688,28 @@ namespace HalfDead
                 wait();
                 Display_text("the door finally creeks open slowly");
                 wait();
-                Display_text("and behind it is a "); // come up with a monster
-                string[] attacks = { "", "soul crush", "", "","",""}; //come up with attacks
-                if (battle(attacks, "boss_name_here", 80))
+                Display_text("and behind it is a hooded spirit"); // come up with a monster
+                string[] attacks = { "", "soul crush", "", "","","cloaked death"}; //come up with attacks
+                if (battle(attacks, "spirit", 80))
                 {
-                    Display_text("Congratulations, you have defeated boss_name_here");
+                    Display_text("Congratulations, you have defeated the spirit");
                     Display_text("finally you can leave this god forsaken den of evil");
                     wait();
                     Display_text("you head over to the elevator");
                     wait();
-                    // call final ending section.
+                    Endings("true ending");
 
                 }
                 else
                 {
                     Display_text("you where so close");
-                    Display_text("and as you edge closer to death you notice boss_name_here cry out");
-                    Display_text("you realise how much pain you have caused him and everyone else and finally realise.");
+                    Display_text("and as you edge closer to death you notice the spirit cry out");
+                    Display_text("you realise how much pain you have caused him and everyone else.");
                     wait();
                     Display_text("despite all you're efforts you where never going to escape");
-                    Display_text("you had to die for the pain you had caused");
-                    // call end credits.
+                    Display_text("you had to die for what you had done");
+                    End_credits();
+                    Environment.Exit(0);
                 }
             }
             else
@@ -664,8 +777,6 @@ namespace HalfDead
             Display_text("Now to escape");
             wait();
             Main_room();
-            End_credits();
-
             Console.ReadKey();
         }
     }
