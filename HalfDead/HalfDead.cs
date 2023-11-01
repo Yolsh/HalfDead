@@ -116,6 +116,21 @@ namespace HalfDead
             }
             sr.Close();
         }
+
+        static void ascii_art_final(string file_pointer)
+        {
+            Console.Clear();
+            StreamReader sr = new StreamReader(file_stream + file_pointer);
+            string line = sr.ReadLine();
+
+            while (line != null)
+            {
+                Console.SetCursorPosition((Console.WindowWidth - line.Length) / 2, Console.WindowHeight / 2);
+                Console.WriteLine(line);
+                line = sr.ReadLine();
+            }
+            sr.Close();
+        }
         static bool battle(string[] boss_attacks, string boss_name, int boss_health, string boss_image)
         {
             int PlayerStartHealth = player_health;
@@ -283,10 +298,7 @@ namespace HalfDead
                 Display_text(credits[i]);
                 Thread.Sleep(500);
             }
-            string finish = "THANKYOU FOR PLAYING!!!";
-            Console.SetCursorPosition((Console.WindowWidth - finish.Length) / 2, Console.WindowHeight / 2);
-            Console.WriteLine(finish);
-            ascii_art("@");
+            ascii_art_final(@"thanks.txt");
             Thread.Sleep(1000);
         }
 
@@ -379,6 +391,8 @@ namespace HalfDead
                                     ascii_art(@"pet.txt");
                                     Display_text("you finally have someone to care for and who cares for you");
                                     Display_text("you pocket them and continue");
+                                    wait();
+                                    Left_Corridor();
                                 }
                                 else
                                 {
@@ -500,8 +514,6 @@ namespace HalfDead
                     string[] boss_attacks = {"", "", "swarm kill", "coallition of chaos", "bodily vortex"};
                     if (battle(boss_attacks, "chaos swarm", 40, @"swarm.txt"))
                     {
-                        Display_text("congratulations you have beaten the chaos swarm");
-                        wait();
                         Display_text("after beating the chaos swarm you pause to look around");
                     }
                     else
@@ -537,14 +549,16 @@ namespace HalfDead
                 switch (choice)
                 {
                     case 1:
+                        Console.Clear();
                         Display_text("you open the cupboard door and discover a breaker for the lights has been flipped");
-                        Display_text("do you turn it back on?");
+                        Display_text("do you turn it back on? [yes/no]");
                         string ans;
                         do
                         {
                             ans = Console.ReadLine().ToUpper();
                             if (ans == "YES")
                             {
+                                Console.Clear();
                                 Display_text((!HasHead) ? "you flip the breaker back over and notice one of the lights isn't working" : "you have already flipped the breaker");
                                 if (!HasHead)
                                 {
