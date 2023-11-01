@@ -196,7 +196,6 @@ namespace HalfDead
             else
             {
                 ascii_art("you died.txt");
-                Display_text("you died.");
                 return false;
             }
         }
@@ -469,7 +468,7 @@ namespace HalfDead
                                     }
                                     else
                                     {
-                                        ascii_art(@"you died.txt");
+                                        wait();
                                         Display_text("Ouch!, you have been bested");
                                         Display_text("thankfully due to the strangeness of what is going on you are able");
                                         Display_text("to continue from a previous point in time");
@@ -662,7 +661,7 @@ namespace HalfDead
                             wait();
                             Display_text("the beast turns and ATTACKS");
                             wait();
-                            string[] attacks = {"mutant growl", "", "shards of bone", "", "", "power slam"};
+                            string[] attacks = {"", "mutant growl", "shards of bone", "", "", "power slam"};
                             if (battle(attacks, "mutant", 40, @"mutant.txt"))
                             {
                                 Display_text("you sprint over to the microwave and ask if its alright");
@@ -694,6 +693,15 @@ namespace HalfDead
                                         Display_text("thats not an option, try again:");
                                     }
                                 } while (Ans != "YES" && Ans != "NO");
+                            }
+                            else
+                            {
+                                wait();
+                                Display_text("Ouch!, you have been bested");
+                                Display_text("thankfully due to the strangeness of what is going on you are able");
+                                Display_text("to continue from a previous point in time");
+                                wait();
+                                Main_room();
                             }
                         }
                         break;
