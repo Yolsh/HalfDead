@@ -15,7 +15,7 @@ namespace HalfDead
 {
     internal class HalfDead
     {
-        static string file_stream = @"C:\Users\josha\OneDrive\Documents\Barton Peveril\Computer Science\HalfDead\";
+        static string file_stream = System.IO.Directory.GetCurrentDirectory() + @"\";
         static int player_health = 20;
         static string[] player_options = { "1 - Heal", "2 - light attack", "3 - heavy attack"};
         static int[] weapon_damage = new int[2];
